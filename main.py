@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 
 # access_token en base_id staan in de .env die los bijgeleverd zal worden.
-# Airtable instellingen
+# Airtable instellingen:
 load_dotenv()
 access_token = os.getenv("AIRTABLE_TOKEN")
 base_id = os.getenv("AIRTABLE_BASE_ID")
@@ -51,12 +51,12 @@ def signaleringsplan_maken():
     print(f"Actie: {record['fields']['Acties']}\n")
 
 def signaleringsplan_bekijken():
-    print("Je hebt gekozen voor het bekijken van jouw signaleringsplan.\n")
+    print("\nJe hebt gekozen voor het bekijken van jouw signaleringsplan.\n")
     records = tabel_signaleringsplan.all()
     pt = PrettyTable()
     pt.field_names = ["Fase", "Signalen", "Acties"]
     if not records:
-        print("Geen signaleringsplan gevonden.")
+        print("Geen signaleringsplan gevonden.\n")
     else:
         sorted_records = sorted(records, key=lambda record: record['fields'].get('Fase', 'z'), reverse=False)
         print("Hier is jouw signaleringsplan:\n")
@@ -78,8 +78,8 @@ def engels_affirmations():
         data = antwoord.json()
         affirmation = data.get("affirmation")
         return affirmation
-    except requests.exceptions.RequestException as e:
-        return f"Er ging iets mis: {e}"
+    except requests.exceptions.RequestException as error:
+        return f"\nEr ging iets mis: {error}\n"
 
 def registreer_fase(fase_kleur, boodschap):
     vandaag = datetime.now().replace(microsecond=0)
@@ -134,7 +134,7 @@ def check_in_keuze():
             print("\nVerkeerde waarde ingevoerd. Kies het getal 1, 2 of 3 voor je keuze.\n")
 
 def dagelijkse_check_in():
-    print("\nJe hebt gekozen voor een dagelijkse Check-in.")
+    print("\nJe hebt gekozen voor een dagelijkse check-in.")
     print("Waar wil je mee beginnen vandaag?\n")
     check_in_keuze()
 
